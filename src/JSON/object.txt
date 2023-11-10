@@ -1,0 +1,3 @@
+[
+{"text":"Hola","translate":"hello"},{"text":"adios","translate":"bye"}
+]
