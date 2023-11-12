@@ -14,7 +14,10 @@ public class Translate {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        var file = new fileManager();
+        
+        file.readFile();
+        System.out.println(file.getObject());
     }
     
 }
