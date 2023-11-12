@@ -16,8 +16,8 @@ public class Translate {
     public static void main(String[] args) {
         var file = new fileManager();
         
-        file.readFile();
-        System.out.println(file.getObject());
+//        file.readFile();
+//        System.out.println(file.getObject());
     }
     
 }
