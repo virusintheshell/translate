@@ -1,10 +1,12 @@
 package translate;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -14,20 +16,26 @@ import org.json.simple.parser.ParseException;
  */
 public final class fileManager {
     private static String directoryName = System.getProperty("user.dir");
-    private static String objectPath = directoryName+"\\src\\JSON\\object.txt";
+    private String objectPath;
     private static FileReader fr;
     private static BufferedReader br;
+    private static BufferedWriter bw = null;
+    private static PrintWriter pw = null;
+    private static FileWriter fw = null;
     private Object obj;
     
     public fileManager(){
+        this.objectPath = getPath();
         
     }
     
     public fileManager(Object obj){
-        this.setObjcet(obj);
+        this.setObjcet(obj); 
+        this.objectPath = getPath();
     }
     
     public void readFile(){
+        
         try{
 //            System.out.println("objectPath = " + objectPath);
             fr = new FileReader(new File(objectPath));
@@ -35,7 +43,7 @@ public final class fileManager {
             br = new BufferedReader(fr);
 //            System.out.println("br = " + br);
             
-            if(isFileExists(new File(objectPath)))
+            if(isFileExists(new File(this.objectPath)))
                 System.out.println("El archivo existe");
             
             JSONParser  parser = new JSONParser();
@@ -52,6 +60,44 @@ public final class fileManager {
         }
     }
     
+    //metodo que guarda el archivo
+    public void saveFile(Object obj){
+        System.out.println("obj = " + obj);
+        
+        String aux = String.valueOf(obj);
+        System.out.println("aux = " + aux);
+        try{
+            pw = new PrintWriter(this.objectPath);
+            pw.close();
+            
+            fw = new FileWriter(this.objectPath);
+            bw = new BufferedWriter(fw);
+            bw.write(aux);
+            bw.close();
+         
+        }catch(IOException e){
+           var texto = "error al guardar el archivo";
+           procesaExcepcion(texto, e);
+        }
+    }
+    
+    //metodo que obtiene la ruta 
+    public String getPath(){
+         //Comprobamos el sistema operativo para traer el path
+        String SysOp = System.getProperty("os.name");
+        System.out.println("SysOp = " + SysOp.substring(0,7));
+        
+        //validamosla ruta para el sistemas
+        if(SysOp.substring(0,7).equals("Windows")){
+            this.objectPath =  directoryName+"\\src\\JSON\\object.txt";
+        }else if(SysOp.substring(0,5).equals("Linux")){
+            this.objectPath =  directoryName+"/src/JSON/object.txt";
+        }else{
+            System.out.println("error al encontra el archivo");
+        }
+        return this.objectPath;
+    }
+
     public Object getObject(){
         return this.obj;
     }
