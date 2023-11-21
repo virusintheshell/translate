@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package translate;
 
 /**
@@ -15,9 +11,11 @@ public class Translate {
      */
     public static void main(String[] args) {
         var file = new fileManager();
-        
-//        file.readFile();
-//        System.out.println(file.getObject());
+        var object = new translateEngine();
+       
+        file.readFile();
+        file.saveFile(file.getObject());
+
     }
     
 }
